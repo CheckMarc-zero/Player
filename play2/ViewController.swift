@@ -16,11 +16,14 @@ import AVFoundation
             var x = 0
             var label1 = UILabel()
             var songName = ""
+            
             @IBOutlet weak var slider2: UISlider!
             
             @IBOutlet weak var label2: UILabel!
             override func viewDidLoad() {
                 super.viewDidLoad()
+                
+                
              //метка
                 
                 self.label1.frame = CGRect(x: 10, y: 100, width: 400, height: 50)
@@ -52,6 +55,8 @@ import AVFoundation
                          self.player.currentTime = TimeInterval(sender.value)
                      }
             }
+            
+            
             @IBAction func playButton(_ sender: Any) {
             self.player.play()
             }
