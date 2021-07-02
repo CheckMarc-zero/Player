@@ -16,14 +16,13 @@ class ViewController: UIViewController {
     var x = 0
     var label1 = UILabel()
     var songName = ""
+    var firstLaunch = true
     
     @IBOutlet weak var slider2: UISlider!
     
     @IBOutlet weak var label2: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         //метка
         
         self.label1.frame = CGRect(x: 10, y: 100, width: 400, height: 50)
@@ -38,9 +37,11 @@ class ViewController: UIViewController {
         self.view.addSubview(slider1)
         self.slider1.addTarget(self, action: #selector(changeSlider), for: .valueChanged)
         
-        //Добавка файла
+    }
+    
+    func startPlayMusic() {
         do {
-            if   let audioPath = Bundle.main.path(forResource: music[x], ofType: "mp3"){
+            if let audioPath = Bundle.main.path(forResource: music[x], ofType: "mp3"){
                 try player = AVAudioPlayer(contentsOf: URL(fileURLWithPath: audioPath))}
             self.slider1.maximumValue = Float(player.duration)
         }
@@ -48,8 +49,8 @@ class ViewController: UIViewController {
             print("Error")
         }
         self.player.play()
-        
     }
+    
     @objc func changeSlider (sender: UISlider){
         if sender == slider1{
             self.player.currentTime = TimeInterval(sender.value)
@@ -58,6 +59,12 @@ class ViewController: UIViewController {
     
     
     @IBAction func playButton(_ sender: Any) {
+        //Добавка файла
+        if firstLaunch {
+            startPlayMusic()
+            firstLaunch = false
+        }
+    
         self.player.play()
     }
     
@@ -72,7 +79,7 @@ class ViewController: UIViewController {
         if x > music.count-1 {
             x=0
         }
-        viewDidLoad()
+        startPlayMusic()
     }
     
     
@@ -81,7 +88,7 @@ class ViewController: UIViewController {
         if x < 0 {
             x = music.count - 1
         }
-        viewDidLoad()
+        startPlayMusic()
     }
     
 }
